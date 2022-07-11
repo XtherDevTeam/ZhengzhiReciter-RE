@@ -9,16 +9,16 @@ on:
   pull_request:
     branches: [ "master" ]
 
-jobs:
-  build:
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
+jobs:
+  linux:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
         node-version: [16.15.1]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v3
@@ -29,30 +29,80 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: |
-        export GH_TOKEN=${{ secrets.ACCESS_TOKEN }}
         npm install
-    
-    - name: build windows app
-      if: matrix.os == 'windows-latest'
-      run: |
-        npm run electron:build
       
-    - name: build mac app
-      if: matrix.os == 'macos-latest'
-      run: |
-        npm run electron:build
-        
     - name: build linux app
-      if: matrix.os == 'ubuntu-latest'
       run: |
         npm run electron:build
     
     - name: cleanup artifacts
       run: |
-          npx rimraf "dist_electron/!(*.exe|*.dmg)"
+          npx rimraf "dist_electron/!(*.exe|*.dmg|*.AppImage)"
           
     - name: upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ matrix.os }}
+        name: linux-amd64
+        path: dist_electron
+        
+  macos:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        node-version: [16.15.1]
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: |
+        npm install
+      
+    - name: build macos app
+      run: |
+        npm run electron:build
+    
+    - name: cleanup artifacts
+      run: |
+          npx rimraf "dist_electron/!(*.exe|*.dmg|*.AppImage)"
+          
+    - name: upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: macos-amd64
+        path: dist_electron
+        
+  windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        node-version: [16.15.1]
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: |
+        npm install
+      
+    - name: build windows app
+      run: |
+        npm run electron:build
+    
+    - name: cleanup artifacts
+      run: |
+          dir dist_electron | where {$_. name -notlike '*.exe*'} | Remove-Item -Recurse -force
+          
+    - name: upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-amd64
         path: dist_electron
