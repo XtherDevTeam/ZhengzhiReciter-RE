@@ -28,7 +28,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm install
+    - run: |
+        export GH_TOKEN=${{ secrets.ACCESS_TOKEN }}
+        npm install
     
     - name: build windows app
       if: matrix.os == 'windows-latest'
