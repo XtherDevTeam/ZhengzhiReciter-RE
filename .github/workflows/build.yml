@@ -99,7 +99,7 @@ jobs:
     
     - name: cleanup artifacts
       run: |
-          npx rimraf "dist_electron/!(*.exe|*.dmg|*.AppImage)"
+          dir dist_electron | where {$_. name -notlike '*.exe*'} | Remove-Item -Recurse -force
           
     - name: upload artifacts
       uses: actions/upload-artifact@v2
