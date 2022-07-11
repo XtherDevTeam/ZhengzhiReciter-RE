@@ -34,6 +34,6 @@ jobs:
       uses: actions/upload-artifact@v3.1.0
       with:
         name: ZhengzhiReciter-RE-windows-x64
-        path: dist-electron/zhengzhi-reciter-re*
+        path: dist_electron/zhengzhi-reciter-re*
     
     
