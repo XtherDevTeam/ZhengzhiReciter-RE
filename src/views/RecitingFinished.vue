@@ -28,7 +28,8 @@
         <p>
           <v-icon>mdi-book</v-icon>
           已背诵 {{ archive.all_recited }} / {{ archive.knowledge_count }} 个知识点
-          累计背诵 {{ archive.held_days }} 天 剩余 {{ (archive.knowledge_count - archive.all_recited) / archive.goal_per_day }} 天
+          累计背诵 {{ archive.held_days }} 天 剩余
+          {{ (archive.knowledge_count - archive.all_recited) / archive.goal_per_day }} 天
           <v-progress-linear style="margin-top: 5px;"
                              :value="(archive.all_recited / archive.knowledge_count) * 100"></v-progress-linear>
         </p>
@@ -73,7 +74,7 @@ export default {
   }),
   created() {
     electron.ipcRenderer.on('command.read_data.callback', (event, args) => {
-      console.log(args)
+      console.log('WhatTheFuck?', args);
       if (args.status) {
         console.log('ipc callback.')
         this.archive = args.data;
@@ -81,28 +82,30 @@ export default {
         this.this_time.count = this.$route.query.count;
 
         electron.ipcRenderer.on('command.get_library.callback', (event, args) => {
+          console.log("???");
           if (args.status) {
             this.library = args.data;
-
-            if (this.archive.today.task_is_finished !== true && this.archive.today.recited >= this.archive.goal_per_day && this.archive.today.reviewed >= this.archive.review_per_day) {
-              this.archive.today.task_is_finished = true;
-              this.archive.held_days++;
-              electron.ipcRenderer.on('command.sync_data.callback', (event, args) => {
-                if (args.status) {
-                  this.alert_message = {
-                    show: true,
-                    message: '已同步背诵数据到档案，今日背诵目标已完成！',
-                    type: 'success'
-                  };
-                } else {
-                  this.alert_message = {
-                    show: true,
-                    message: '无法同步数据到档案，请检查后端是否出现错误！',
-                    type: 'error'
-                  };
-                }
-              });
-              electron.ipcRenderer.send("command.sync_data", this.archive);
+            if (this.archive.today.recited >= this.archive.goal_per_day && this.archive.today.reviewed >= this.archive.review_per_day) {
+              if (!this.archive.today.task_is_finished) {
+                this.archive.today.task_is_finished = true;
+                this.archive.held_days++;
+                electron.ipcRenderer.on('command.sync_data.callback', (event, args) => {
+                  if (args.status) {
+                    this.alert_message = {
+                      show: true,
+                      message: '已同步背诵数据到档案，今日背诵目标已完成！',
+                      type: 'success'
+                    };
+                  } else {
+                    this.alert_message = {
+                      show: true,
+                      message: '无法同步数据到档案，请检查后端是否出现错误！',
+                      type: 'error'
+                    };
+                  }
+                });
+                electron.ipcRenderer.send("command.sync_data", this.archive);
+              }
             }
           } else {
             console.log('load failed')

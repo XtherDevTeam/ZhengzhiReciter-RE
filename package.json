@@ -1,6 +1,7 @@
 {
   "name": "zhengzhi-reciter-re",
-  "version": "0.1.0",
+  "author": "Jerry Chou(Winghong Zau)",
+  "version": "0.1.0 revision 1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
