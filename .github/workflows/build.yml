@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+  GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
 jobs:
   build:
 
@@ -29,7 +32,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: |
-        export GH_TOKEN=${{ secrets.ACCESS_TOKEN }}
         npm install
     
     - name: build windows app
