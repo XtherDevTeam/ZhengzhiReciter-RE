@@ -49,7 +49,7 @@ jobs:
     
     - name: cleanup artifacts
       run: |
-          npx rimraf "dist_electron/!(*.exe|*.dmg)"
+          npx rimraf "dist_electron/!(*.exe|*.dmg|*.AppImage)"
           
     - name: upload artifacts
       uses: actions/upload-artifact@v2
