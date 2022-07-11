@@ -9,8 +9,36 @@ import * as electron from "electron";
 // import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
-if (!fs.existsSync(path.join(process.cwd(), 'data.json'))) {
-    fs.writeFile(path.join(process.cwd(), "data.json"), JSON.stringify({
+let programFilesDir = "";
+
+switch (process.platform) {
+    case "win32":
+        if (!fs.existsSync(path.join(process.env.USERPROFILE, '.zhengzhi-reciter-re')))
+            fs.mkdirSync(path.join(process.env.USERPROFILE, '.zhengzhi-reciter-re'));
+        programFilesDir = path.join(process.env.USERPROFILE, '.zhengzhi-reciter-re');
+        break;
+    case "aix":
+    case "android":
+    case "freebsd":
+    case "haiku":
+    case "linux":
+    case "openbsd":
+    case "sunos":
+    case "cygwin":
+    case "netbsd":
+        if (!fs.existsSync(path.join(process.env.HOME, '.zhengzhi-reciter-re')))
+            fs.mkdirSync(path.join(process.env.HOME, '.zhengzhi-reciter-re'));
+        programFilesDir = path.join(process.env.HOME, '.zhengzhi-reciter-re');
+        break;
+    case "darwin":
+        if (!fs.existsSync(path.join(process.env.HOME, '.zhengzhi-reciter-re')))
+            fs.mkdirSync(path.join(process.env.HOME, '.zhengzhi-reciter-re'));
+        programFilesDir = path.join(process.env.HOME, '.zhengzhi-reciter-re');
+        break;
+}
+
+if (!fs.existsSync(path.join(programFilesDir, 'data.json'))) {
+    fs.writeFile(path.join(programFilesDir, "data.json"), JSON.stringify({
         goal_per_day: 0,
         review_per_day: 0,
         today: {
@@ -27,7 +55,7 @@ if (!fs.existsSync(path.join(process.cwd(), 'data.json'))) {
 }
 
 ipcMain.on('command.read_data', function (event, args) {
-    fs.readFile(path.join(process.cwd(), "data.json"), "utf-8", (err, data) => {
+    fs.readFile(path.join(programFilesDir, "data.json"), "utf-8", (err, data) => {
         if (err) {
             console.log('command.read_data received an error.')
             event.sender.send('command.read_data.callback', {'status': false, data: {}})
@@ -50,7 +78,7 @@ ipcMain.on('command.read_data', function (event, args) {
 
 ipcMain.on('command.sync_data', function (event, args) {
     try {
-        fs.readFile(path.join(process.cwd(), "data.json"), "utf-8", (err, data) => {
+        fs.readFile(path.join(programFilesDir, "data.json"), "utf-8", (err, data) => {
             if (err) {
                 event.sender.send('command.sync_data.callback', {'status': false, data: {}})
             } else {
@@ -62,7 +90,7 @@ ipcMain.on('command.sync_data', function (event, args) {
                 }
                 backend.methods.load_library(args.use_book, (a, b) => {
                     args.knowledge_count = b.length;
-                    fs.writeFile(path.join(process.cwd(), "data.json"), JSON.stringify(args), "utf-8", () => {
+                    fs.writeFile(path.join(programFilesDir, "data.json"), JSON.stringify(args), "utf-8", () => {
                         event.sender.send('command.sync_data.callback', {'status': true, data: {}})
                     })
                 });
