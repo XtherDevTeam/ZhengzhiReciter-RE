@@ -113,6 +113,7 @@ export default {
             this.archive.today.reviewed += this.recited;
           }
           electron.ipcRenderer.on('command.sync_data.callback', (event, args) => {
+            electron.ipcRenderer.removeAllListeners('command.sync_data.callback');
             if (args.status) {
               this.$router.push(`/reciting/finished?mode=${this.mode}&count=${this.recited}`);
             } else {
@@ -143,12 +144,13 @@ export default {
   },
   created() {
     electron.ipcRenderer.on('command.read_data.callback', (event, args) => {
-      console.log(args)
+      electron.ipcRenderer.removeAllListeners('command.read_data.callback');
       if (args.status) {
         console.log('ipc callback.')
         this.archive = args.data;
 
         electron.ipcRenderer.on('command.get_library.callback', (event, args) => {
+          electron.ipcRenderer.removeAllListeners('command.get_library.callback');
           if (args.status) {
             this.library = args.data;
             this.mode = this.$route.query.mode;

@@ -74,7 +74,7 @@ export default {
   }),
   created() {
     electron.ipcRenderer.on('command.read_data.callback', (event, args) => {
-      console.log('WhatTheFuck?', args);
+      electron.ipcRenderer.removeAllListeners('command.read_data.callback');
       if (args.status) {
         console.log('ipc callback.')
         this.archive = args.data;
@@ -82,7 +82,7 @@ export default {
         this.this_time.count = this.$route.query.count;
 
         electron.ipcRenderer.on('command.get_library.callback', (event, args) => {
-          console.log("???");
+          electron.ipcRenderer.removeAllListeners('command.get_library.callback');
           if (args.status) {
             this.library = args.data;
             if (this.archive.today.recited >= this.archive.goal_per_day && this.archive.today.reviewed >= this.archive.review_per_day) {
@@ -90,6 +90,7 @@ export default {
                 this.archive.today.task_is_finished = true;
                 this.archive.held_days++;
                 electron.ipcRenderer.on('command.sync_data.callback', (event, args) => {
+                  electron.ipcRenderer.removeAllListeners('command.sync_data.callback');
                   if (args.status) {
                     this.alert_message = {
                       show: true,

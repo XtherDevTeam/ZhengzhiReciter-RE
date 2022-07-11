@@ -69,12 +69,13 @@ export default {
   }),
   created() {
     electron.ipcRenderer.on('command.read_data.callback', (event, args) => {
-      console.log(args)
+      electron.ipcRenderer.removeAllListeners('command.read_data.callback');
       if (args.status) {
         console.log('ipc callback.')
         this.archive = args.data;
 
         electron.ipcRenderer.on('command.get_library.callback', (event, args) => {
+          electron.ipcRenderer.removeAllListeners('command.get_library.callback');
           if (args.status) {
             console.log('load success')
             console.log(args)

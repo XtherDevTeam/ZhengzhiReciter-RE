@@ -90,7 +90,7 @@ export default {
     },
     get_archive() {
       electron.ipcRenderer.on('command.read_data.callback', (event, args) => {
-        console.log(args)
+        electron.ipcRenderer.removeAllListeners('command.read_data.callback');
         if (args.status) {
           console.log('ipc callback.')
           this.archive = args.data;

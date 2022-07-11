@@ -84,7 +84,7 @@ export default {
   methods: {
     get_archive() {
       electron.ipcRenderer.on('command.read_data.callback', (event, args) => {
-        console.log(args)
+        electron.ipcRenderer.removeAllListeners('command.read_data.callback');
         if (args.status) {
           console.log('ipc callback.')
           this.archive = args.data;
@@ -108,6 +108,7 @@ export default {
       this.archive.review_per_day = this.settings.review_per_day;
       this.archive.goal_per_day = this.settings.goal_per_day;
       electron.ipcRenderer.on('command.sync_data.callback', (event, args) => {
+        electron.ipcRenderer.removeAllListeners('command.sync_data.callback');
         console.log(args)
         if (args.status) {
           console.log('ipc callback.')
