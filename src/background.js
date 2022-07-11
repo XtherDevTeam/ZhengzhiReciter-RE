@@ -9,8 +9,25 @@ import * as electron from "electron";
 // import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
+if (!fs.existsSync(path.join(process.cwd(), 'data.json'))) {
+    fs.writeFile(path.join(process.cwd(), "data.json"), JSON.stringify({
+        goal_per_day: 0,
+        review_per_day: 0,
+        today: {
+            task_is_finished: false,
+            recited: 0,
+            reviewed: 0, day: "0000-00-00"
+        },
+        held_days: 0,
+        all_recited: 0,
+        knowledge_count: 0,
+        use_book: ""
+    }), "utf-8", () => {
+    });
+}
+
 ipcMain.on('command.read_data', function (event, args) {
-    fs.readFile(path.join(__dirname, "data.json"), "utf-8", (err, data) => {
+    fs.readFile(path.join(process.cwd(), "data.json"), "utf-8", (err, data) => {
         if (err) {
             console.log('command.read_data received an error.')
             event.sender.send('command.read_data.callback', {'status': false, data: {}})
@@ -33,7 +50,7 @@ ipcMain.on('command.read_data', function (event, args) {
 
 ipcMain.on('command.sync_data', function (event, args) {
     try {
-        fs.readFile(path.join(__dirname, "data.json"), "utf-8", (err, data) => {
+        fs.readFile(path.join(process.cwd(), "data.json"), "utf-8", (err, data) => {
             if (err) {
                 event.sender.send('command.sync_data.callback', {'status': false, data: {}})
             } else {
@@ -45,7 +62,7 @@ ipcMain.on('command.sync_data', function (event, args) {
                 }
                 backend.methods.load_library(args.use_book, (a, b) => {
                     args.knowledge_count = b.length;
-                    fs.writeFile(path.join(__dirname, "data.json"), JSON.stringify(args), "utf-8", () => {
+                    fs.writeFile(path.join(process.cwd(), "data.json"), JSON.stringify(args), "utf-8", () => {
                         event.sender.send('command.sync_data.callback', {'status': true, data: {}})
                     })
                 });

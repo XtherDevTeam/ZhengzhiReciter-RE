@@ -61,7 +61,7 @@
       </v-list>
     </v-navigation-drawer>
     <div style="margin-left: 256px;">
-      <router-view class="router-box"></router-view>
+      <router-view class="router-box" ></router-view>
     </div>
   </v-app>
 </template>
@@ -108,6 +108,9 @@ export default {
     easter_egg_dialog: false,
     easter_egg_click_count: 0,
   }),
+  created() {
+    this.$router.push('/');
+  }
 };
 </script>
 
