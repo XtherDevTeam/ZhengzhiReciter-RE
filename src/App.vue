@@ -10,7 +10,7 @@
           一个小彩蛋~
         </v-card-title>
         <v-card-text>
-          你知道吗？作者把喜欢的人的名字写到了他B站关注的一个人的用户名上（
+          我是个傻逼!
         </v-card-text>
         <v-card-actions>
           <v-btn

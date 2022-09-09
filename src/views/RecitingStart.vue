@@ -109,7 +109,7 @@ export default {
           if (this.mode === 'goal_new') {
             this.archive.today.recited += this.recited;
             this.archive.all_recited += this.recited;
-          } else if (this.mode === 'goal_review' || this.mode == 'random_recite') {
+          } else if (this.mode === 'goal_review' || this.mode === 'random_recite') {
             this.archive.today.reviewed += this.recited;
           }
           electron.ipcRenderer.on('command.sync_data.callback', (event, args) => {

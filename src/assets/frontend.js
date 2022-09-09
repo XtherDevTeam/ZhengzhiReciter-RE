@@ -4,18 +4,32 @@ export default {
         getRndInteger(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         },
-        getSimilarity(str1, str2) {
-            let sameNum = 0
-            for (let i = 0; i < str1.length; i++) {
-                for (let j = 0; j < str2.length; j++) {
-                    if (str1[i] === str2[j]) {
-                        sameNum++
-                        break
+        getSimilarity(s, t) {
+            const n = s.length, m = t.length, d = [];
+            let i, j, s_i, t_j, cost;
+            if (n === 0) return m;
+            if (m === 0) return n;
+            for (i = 0; i <= n; i++) {
+                d[i] = [];
+                d[i][0] = i;
+            }
+            for (j = 0; j <= m; j++) {
+                d[0][j] = j;
+            }
+            for (i = 1; i <= n; i++) {
+                s_i = s.charAt(i - 1);
+                for (j = 1; j <= m; j++) {
+                    t_j = t.charAt(j - 1);
+                    if (s_i === t_j) {
+                        cost = 0;
+                    } else {
+                        cost = 1;
                     }
+                    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
                 }
             }
-            let length = str1.length > str2.length ? str1.length : str2.length
-            return (sameNum / length) * 100 || 0
+            const l = s.length > t.length ? s.length : t.length;
+            return (1 - d[n][m] / l).toFixed(4);
         },
         point_getter(type, temp_recited, all_recited, count) {
             if (type === "goal_new") {
@@ -29,10 +43,11 @@ export default {
         run_judge(inputs, points) {
             let fell_test = 0;
             for (let i = 0; i < inputs.length; i++) {
-                console.log(i, "before:" , inputs[i], points[i]);
+                console.log(i, "before:", inputs[i], points[i]);
                 const input = inputs[i].replaceAll(/，|。|：|”|“|‘|,|:|"|·|—|、|（|）|【|】/g, "");
                 const point = points[i].replaceAll(/，|。|：|”|“|‘|,|:|"|·|—|、|（|）|【|】/g, "");
                 console.log(i, 'processed strings:', input, point);
+                console.log(i, '我趣', this.getSimilarity(input, point));
                 if (this.getSimilarity(input, point) < 0.8) {
                     fell_test++;
                 }
