@@ -23,7 +23,7 @@
         elevation="2">
       <v-img
           height="250"
-          src="@/assets/background.jpg"
+          src="https://api.ixiaowai.cn/api/api.php"
       ></v-img>
       <v-card-title>早安，内卷人！</v-card-title>
       <v-card-subtitle>向着自己所追求的目标前进吧~</v-card-subtitle>

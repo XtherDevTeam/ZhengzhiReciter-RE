@@ -4,7 +4,7 @@
         elevation="2">
       <v-img
           height="250"
-          src="@/assets/background.jpg"
+          src="https://api.ixiaowai.cn/api/api.php"
       ></v-img>
       <v-alert
           style="margin: 10px;"

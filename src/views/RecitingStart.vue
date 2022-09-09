@@ -42,7 +42,12 @@
             :key="i"
             :name="'answer-input-' + i"
             :label="'分点-' + i"
+            auto-grow
+            filled
             rows="1"
+            :hint="current.hints[i]"
+            :persistent-hint="true"
+            @input="line_checker(i)"
         ></v-textarea>
       </v-card-text>
       <v-divider></v-divider>
@@ -87,7 +92,8 @@ export default {
     mode: '',
     current: {
       index: 0,
-      inputs: []
+      inputs: [],
+      hints: []
     },
     alert_message: {
       show: false,
@@ -140,6 +146,9 @@ export default {
         };
         this.reciting = false;
       }
+    },
+    line_checker(i) {
+      this.current.hints[i] = frontend.methods.get_correct_rate(this.current.inputs[i], this.library[this.current.index].points[i]);
     }
   },
   created() {
@@ -161,8 +170,10 @@ export default {
             }
             this.current.index = frontend.methods.point_getter(this.mode, this.recited, this.archive.all_recited, this.archive.knowledge_count);
             this.current.inputs = [];
+            this.current.hints = [];
             for (let i in this.library[this.current.index].points) {
               this.current.inputs.push('');
+              this.current.hints.push('0.0000');
             }
           } else {
             console.log('load failed')

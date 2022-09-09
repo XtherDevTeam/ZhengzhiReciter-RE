@@ -5,6 +5,8 @@ export default {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         },
         getSimilarity(s, t) {
+            if (s === "")
+                return 0.0.toFixed(4);
             const n = s.length, m = t.length, d = [];
             let i, j, s_i, t_j, cost;
             if (n === 0) return m;
@@ -56,6 +58,11 @@ export default {
                 return false;
             }
             return true;
+        },
+        get_correct_rate(input_val, point_val) {
+            const input = input_val.replaceAll(/，|。|：|”|“|‘|,|:|"|·|—|、|（|）|【|】/g, "");
+            const point = point_val.replaceAll(/，|。|：|”|“|‘|,|:|"|·|—|、|（|）|【|】/g, "");
+            return this.getSimilarity(input, point);
         }
     }
 }
