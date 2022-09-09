@@ -46,7 +46,6 @@
             filled
             rows="1"
             :hint="current.hints[i]"
-            :persistent-hint="true"
             @input="line_checker(i)"
         ></v-textarea>
       </v-card-text>
