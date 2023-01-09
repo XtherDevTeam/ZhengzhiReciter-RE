@@ -46,7 +46,7 @@ jobs:
         path: dist_electron
         
   macos:
-    runs-on: macos-latest
+    runs-on: macos-10.15
     strategy:
       matrix:
         node-version: [16.15.1]
@@ -64,7 +64,8 @@ jobs:
       
     - name: build macos app
       run: |
-        export PYTHON_PATH=/usr/local/Cellar/python/2.7.11/bin/python ; npm run electron:build
+        python --version
+        npm run electron:build
     
     - name: cleanup artifacts
       run: |
