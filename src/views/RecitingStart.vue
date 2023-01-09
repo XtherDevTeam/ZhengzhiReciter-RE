@@ -30,7 +30,7 @@
       {{ alert_message.message }}
     </v-alert>
     <v-card style="margin-top: 10px;" v-if="reciting">
-      <v-card-title>第{{ recited + 1 }} / {{ goal }} 题</v-card-title>
+      <v-card-title>第 {{ recited + 1 }} / {{ goal }} 题</v-card-title>
       <v-divider></v-divider>
 
       <v-card-text>
@@ -55,7 +55,7 @@
       </v-card-actions>
     </v-card>
     <v-card style="margin-top: 10px;" v-else>
-      <v-card-title>第{{ recited + 1 }} / {{ goal }} 题</v-card-title>
+      <v-card-title>第 {{ recited + 1 }} / {{ goal }} 题</v-card-title>
       <v-card-subtitle>背诵完成后请点击确定</v-card-subtitle>
       <v-divider></v-divider>
       <v-card-text>
