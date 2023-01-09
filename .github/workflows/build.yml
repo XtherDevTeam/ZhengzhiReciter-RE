@@ -64,7 +64,7 @@ jobs:
       
     - name: build macos app
       run: |
-        npm run electron:build
+        export PYTHON_PATH=/usr/local/Cellar/python/2.7.11/bin/python ; npm run electron:build
     
     - name: cleanup artifacts
       run: |
