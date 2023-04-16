@@ -8,7 +8,7 @@
       <template v-slot:prepend>
         <v-list-item two-line link @click="nightModeSwitch()">
           <v-list-item-avatar>
-            <img src="@/assets/avatar.jpg" alt="我是傻逼">
+            <img src="@/assets/avatar.png" alt="我是傻逼">
           </v-list-item-avatar>
 
           <v-list-item-content>
