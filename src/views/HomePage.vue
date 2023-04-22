@@ -41,7 +41,7 @@
           已背诵 {{ archive.all_recited }} / {{ archive.knowledge_count }} 个知识点
           累计背诵 {{ archive.held_days }} 天
           剩余 {{ (archive.knowledge_count - archive.all_recited) / archive.goal_per_day }} 天<br>
-          <v-progress-linear style="margin-top: 5px;"
+          <v-progress-linear style="margin-top: 5px"
                              :value="(archive.all_recited / archive.knowledge_count) * 100"></v-progress-linear>
         </p>
         今天已背诵 <span class="big_number">{{ archive.today.recited }}</span> 个知识点 已复习 <span class="big_number">{{
@@ -53,9 +53,9 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "axios"
 
-const electron = window.require('electron');
+const electron = window.require('electron')
 
 export default {
   name: "home-page",
@@ -84,31 +84,31 @@ export default {
     get_hitokoto() {
       axios.get('https://v1.hitokoto.cn/?c=a').then((data) => {
         if (data.status === 200) {
-          this.hitokoto = data.data;
+          this.hitokoto = data.data
         }
-      });
+      })
     },
     get_archive() {
       electron.ipcRenderer.on('command.read_data.callback', (event, args) => {
-        electron.ipcRenderer.removeAllListeners('command.read_data.callback');
+        electron.ipcRenderer.removeAllListeners('command.read_data.callback')
         if (args.status) {
           console.log('ipc callback.')
-          this.archive = args.data;
+          this.archive = args.data
         } else {
           this.ok_dialog = {
             title: '错误',
             message: '加载存档失败! 请检查程序是否完整且拥有读写文件的权限!',
             ok_button_text: '确定'
-          };
-          this.show_ok_dialog = true;
+          }
+          this.show_ok_dialog = true
         }
-      });
-      electron.ipcRenderer.send('command.read_data');
+      })
+      electron.ipcRenderer.send('command.read_data')
     }
   },
   created() {
-    this.get_hitokoto();
-    this.get_archive();
+    this.get_hitokoto()
+    this.get_archive()
   }
 }
 </script>

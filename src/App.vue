@@ -75,8 +75,12 @@ export default {
       url: '/reciting/menu'
     }, {
       title: '设置',
-      icon: 'mdi-cog-outline',
+      icon: 'mdi-cog',
       url: '/settings'
+    }, {
+      title: '关于',
+      icon: 'mdi-information',
+      url: '/about',
     }],
   }),
   created() {

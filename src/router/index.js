@@ -6,6 +6,7 @@ import Settings from "@/views/Settings";
 import RecitingMenu from "@/views/RecitingMenu";
 import RecitingStart from "@/views/RecitingStart";
 import RecitingFinished from "@/views/RecitingFinished";
+import About from "@/views/About.vue";
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,12 @@ const routes = [
         path: '/settings',
         name: 'settings',
         component: Settings
+    },
+
+    {
+        path: '/about',
+        name: 'about',
+        component: About
     },
     {
         path: '/reciting/menu',

@@ -7,7 +7,7 @@
           src="@/assets/background_hw_2.jpg"
       ></v-img>
       <v-alert
-          style="margin: 10px;"
+          style="margin: 10px"
           border="right"
           colored-border
           :type="alert_message.type"
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-const electron = window.require('electron');
+const electron = window.require('electron')
 
 export default {
   name: "book-preview",
@@ -69,38 +69,38 @@ export default {
   }),
   created() {
     electron.ipcRenderer.on('command.read_data.callback', (event, args) => {
-      electron.ipcRenderer.removeAllListeners('command.read_data.callback');
+      electron.ipcRenderer.removeAllListeners('command.read_data.callback')
       if (args.status) {
         console.log('ipc callback.')
-        this.archive = args.data;
+        this.archive = args.data
 
         electron.ipcRenderer.on('command.get_library.callback', (event, args) => {
-          electron.ipcRenderer.removeAllListeners('command.get_library.callback');
+          electron.ipcRenderer.removeAllListeners('command.get_library.callback')
           if (args.status) {
             console.log('load success')
             console.log(args)
-            this.library = args.data;
-            console.log(this.library);
+            this.library = args.data
+            console.log(this.library)
           } else {
             console.log('load failed')
             this.alert_message = {
               show: true,
               message: "载入提纲文件失败, 请检查是否正确设置了提纲文件路径!",
               type: "error"
-            };
+            }
           }
         })
-        electron.ipcRenderer.send('command.get_library', this.archive.use_book);
+        electron.ipcRenderer.send('command.get_library', this.archive.use_book)
 
       } else {
         this.alert_message = {
           show: true,
           message: '加载存档失败! 请检查程序是否完整且拥有读写文件的权限!',
           type: 'error'
-        };
+        }
       }
-    });
-    electron.ipcRenderer.send('command.read_data');
+    })
+    electron.ipcRenderer.send('command.read_data')
   }
 }
 </script>

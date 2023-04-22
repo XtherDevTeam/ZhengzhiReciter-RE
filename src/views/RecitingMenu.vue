@@ -7,7 +7,7 @@
           src="@/assets/background_hw_2.jpg"
       ></v-img>
       <v-alert
-          style="margin: 10px;"
+          style="margin: 10px"
           border="right"
           colored-border
           :type="alert_message.type"
@@ -27,7 +27,7 @@
           <v-icon>mdi-book</v-icon>
           已背诵 {{ archive.all_recited }} / {{ archive.knowledge_count }} 个知识点
           累计背诵 {{ archive.held_days }} 天 剩余 {{ (archive.knowledge_count - archive.all_recited) / archive.goal_per_day }} 天
-          <v-progress-linear style="margin-top: 5px;"
+          <v-progress-linear style="margin-top: 5px"
                              :value="(archive.all_recited / archive.knowledge_count) * 100"></v-progress-linear>
         </p>
         今天已背诵 <span class="big_number">{{ archive.today.recited }}</span> 个知识点 已复习 <span class="big_number">{{
@@ -42,7 +42,7 @@
         <v-btn elevation="2" color="primary" @click="route_go('/reciting/start?mode=goal_new')">
           开始背诵新知识点吧~ ({{ archive.today.recited }} / {{ archive.goal_per_day }})
         </v-btn>
-        <v-btn style="margin-left: 5px;" elevation="2" color="primary" @click="route_go('/reciting/start?mode=goal_review')">
+        <v-btn style="margin-left: 5px" elevation="2" color="primary" @click="route_go('/reciting/start?mode=goal_review')">
           复习知识点 ({{ archive.today.reviewed }} / {{ archive.review_per_day }})
         </v-btn>
       </v-card-text>
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-const electron = window.require('electron');
+const electron = window.require('electron')
 
 export default {
   name: "reciting-menu",
@@ -78,24 +78,24 @@ export default {
   }),
   methods: {
     route_go(path) {
-       this.$router.push(path);
+       this.$router.push(path)
     }
   },
   created() {
     electron.ipcRenderer.on('command.read_data.callback', (event, args) => {
-      electron.ipcRenderer.removeAllListeners('command.read_data.callback');
+      electron.ipcRenderer.removeAllListeners('command.read_data.callback')
       if (args.status) {
         console.log('ipc callback.')
-        this.archive = args.data;
+        this.archive = args.data
       } else {
         this.alert_message = {
           show: true,
           message: '加载存档失败! 请检查程序是否完整且拥有读写文件的权限!',
           type: 'error'
-        };
+        }
       }
-    });
-    electron.ipcRenderer.send('command.read_data');
+    })
+    electron.ipcRenderer.send('command.read_data')
   }
 }
 </script>
