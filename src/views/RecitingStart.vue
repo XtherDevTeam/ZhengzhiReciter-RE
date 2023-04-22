@@ -108,7 +108,7 @@ export default {
       console.log(this.current.inputs)
       let passed = frontend.methods.run_judge(this.current.inputs, this.library[this.recite_queue[0]].points)
       if (passed) {
-        if (this.recite_queue.length === 0) {
+        if (this.recite_queue.length === 1) {
           /* 完成 更新存档 */
           if (this.mode === 'goal_new') {
             this.archive.today.recited += this.goal
