@@ -31,19 +31,19 @@
           <div style="margin-top: 20px"></div>
 
           <v-text-field label="一日新背知识点数" v-model="settings.goal_per_day">
-            <v-icon slot="append" color="green" link @click="settings.goal_per_day--">
+            <v-icon slot="append" color="green" link @click="settings.goal_per_day = parseInt(settings.goal_per_day)-1">
               mdi-minus
             </v-icon>
-            <v-icon slot="append" color="red" link @click="settings.goal_per_day++">
+            <v-icon slot="append" color="red" link @click="settings.goal_per_day = parseInt(settings.goal_per_day)+1">
               mdi-plus
             </v-icon>
           </v-text-field>
 
           <v-text-field label="一日复习知识点数" v-model="settings.review_per_day">
-            <v-icon slot="append" color="green" link @click="settings.review_per_day--">
+            <v-icon slot="append" color="green" link @click="settings.review_per_day = parseInt(settings.review_per_day)-1">
               mdi-minus
             </v-icon>
-            <v-icon slot="append" color="red" link @click="settings.review_per_day++">
+            <v-icon slot="append" color="red" link @click="settings.review_per_day = parseInt(settings.review_per_day)+1">
               mdi-plus
             </v-icon>
           </v-text-field>
@@ -89,8 +89,8 @@ export default {
           console.log('ipc callback.')
           this.archive = args.data
           this.settings.use_book = this.archive.use_book
-          this.settings.review_per_day = this.archive.review_per_day
-          this.settings.goal_per_day = this.archive.goal_per_day
+          this.settings.review_per_day = parseInt(this.archive.review_per_day)
+          this.settings.goal_per_day = parseInt(this.archive.goal_per_day)
         } else {
           this.ok_dialog = {
             title: '错误',

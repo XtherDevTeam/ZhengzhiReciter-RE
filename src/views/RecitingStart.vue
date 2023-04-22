@@ -167,6 +167,7 @@ export default {
             this.mode = this.$route.query.mode
             if (this.mode === 'goal_new') {
               this.goal = this.archive.goal_per_day < this.archive.knowledge_count - this.archive.all_recited ? this.archive.goal_per_day : this.archive.knowledge_count - this.archive.all_recited
+              console.log(this.goal, this.archive)
             } else if (this.mode === 'goal_review') {
               this.goal = this.archive.review_per_day
             }

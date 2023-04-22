@@ -13,7 +13,7 @@
 
           <v-list-item-content>
             <v-list-item-title>蒸痔背書硝煮獸</v-list-item-title>
-            <v-list-item-subtitle>Developed by Jerry Chou (Winghong Zau)</v-list-item-subtitle>
+            <v-list-item-subtitle>Developed by Jerry Chau</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </template>

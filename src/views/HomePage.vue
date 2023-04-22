@@ -25,8 +25,8 @@
           height="250"
           src="@/assets/background_hw_2.jpg"
       ></v-img>
-      <v-card-title>早安，内卷人！</v-card-title>
-      <v-card-subtitle>向着自己所追求的目标前进吧~</v-card-subtitle>
+      <v-card-title>HELLO WORLD</v-card-title>
+      <v-card-subtitle>たとえ世界が壊れても、もう一度君に会いたい。</v-card-subtitle>
       <v-divider></v-divider>
       <v-card-title>一言 (Hitokoto)</v-card-title>
       <v-card-text>
